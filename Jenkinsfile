@@ -15,7 +15,7 @@ pipeline {
 
     stage('Deploy') {
       steps {
-        sh 'echo performing deployment && ls && pwd && whomai && echo alright'
+        sh 'echo performing deployment && ls && pwd && whoami && echo alright'
       }
     }
 
