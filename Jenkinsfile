@@ -3,19 +3,19 @@ pipeline {
   stages {
     stage('Build') {
       steps {
-        sh 'echo hello world && echo pwd && whoami'
+        zsh build.zsh
       }
     }
 
     stage('Test') {
       steps {
-        sh 'echo testing && pwd && ls && whoami && touch test.txt && ls &&  echo success'
+        zsh test.zsh
       }
     }
 
     stage('Deploy') {
       steps {
-        sh 'echo performing deployment && ls && pwd && whoami && echo alright'
+        zsh deploy.zsh
       }
     }
 
