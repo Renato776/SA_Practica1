@@ -3,19 +3,19 @@ pipeline {
   stages {
     stage('Build') {
       steps {
-        zsh 'build.zsh'
+        sh 'zsh build.zsh'
       }
     }
 
     stage('Test') {
       steps {
-        zsh 'test.zsh'
+        sh 'zsh test.zsh'
       }
     }
 
     stage('Deploy') {
       steps {
-        zsh 'deploy.zsh'
+        sh 'zsh deploy.zsh'
       }
     }
 
