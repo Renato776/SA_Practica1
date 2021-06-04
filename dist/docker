@@ -1,0 +1,34 @@
+#!/bin/env zsh
+img="$3"
+real_docker=/usr/bin/docker
+declare -A ports
+ports=([shopping]=5006
+	[service-auth]=5000
+	[frontend]=8080
+	[product-delete]=5002
+	[product-add]=5001
+	[product-update]=5004
+	[product-upload]=5005
+	[product-get]=5003)
+if [[ "$1" = "build" ]]; then
+  if [[ "${${img##*/}%:*}" = "frontend" ]]; then
+    $real_docker "$@"
+  else
+    V=5000
+    for serv port in ${(kv)ports}; do #Do not quote the ${(kv)ports}
+      # part. If you do, the serv and port values will not be
+      # set properly.
+      if [[ "$serv" = "${${img##*/}%:*}" ]]; then
+        V="$port"
+      fi
+    done
+    $real_docker build -t "$3"  - &> /dev/null <<- EOF
+    FROM golang:latest
+    RUN echo "#!/bin/sh\necho server ready on port $V\nwhile true\ndo\nsleep 10\ndone;" > ./server
+    RUN chmod +x ./server
+    CMD ["./server"]
+EOF
+  fi
+else
+  $real_docker "$@"
+fi
